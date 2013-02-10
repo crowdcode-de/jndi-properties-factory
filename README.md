@@ -1,5 +1,51 @@
 ## PropertiesFactory 
-    
+           
+JNDI-Properties provides two simple JNDI ObjectFactory classes that enable you to bind a property file as a Properties object into the jndi tree of JBoss AS 7.
+
+You can choose between `PropertiesFileFactory` or `PropertiesClasspathFactory` class. 
+`PropertiesFileFactory` loads the properties from a filesystem.
+
+###JBoss AS 7 Setup:
+                                                    
+Setting up the module:
+
+Put into the folder de/crowdcode/jndi/properties/main the jndi-properties.jar file and a module.xml containing
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <module xmlns="urn:jboss:module:1.1" name="de.crowdcode.jndi.properties">
+	    <resources>
+		    <resource-root path="."/>
+		    <resource-root path="jndi-properties.jar"/>
+	    </resources>  
+	    <dependencies>
+	  	    <module name="javax.api" />
+        </dependencies>
+    </module>
+
+Define the JNDI Binding in the `standalone.xml`:
+
+    <subsystem xmlns="urn:jboss:domain:naming:1.1">
+        <bindings>
+            <object-factory name="java:/property-config" module="de.crowdcode.jndi.properties" class="de.crowdcode.jndi.properties.PropertiesFileFactory"/>
+        </bindings>
+    </subsystem>                                                                                                                                              
+
+And as JBoss AS 7.1.1 doesn't support configuration of ObjectFactories, you need to define a system property with the name of the jndi name.
+
+    <system-properties>
+        <property name="java:/property-config" value="/absolute/path/to/the/file/application.properties"/>
+    </system-properties>
+
+`PropertiesClasspathFactory` loads the properties from classpath.
+
+    <subsystem xmlns="urn:jboss:domain:naming:1.1">
+        <bindings>
+            <object-factory name="java:/property-config" module="de.crowdcode.jndi.properties" class="de.crowdcode.jndi.properties.PropertiesClasspathFactory"/>
+        </bindings>
+    </subsystem>                                                                                                                                              
+	
+Add your properties file into the de/crowdcode/jndi/properties folder.
+
 # License
 
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">
