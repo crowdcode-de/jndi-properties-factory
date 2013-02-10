@@ -46,7 +46,7 @@ And as JBoss AS 7.1.1 doesn't support configuration of ObjectFactories, you need
         </bindings>
     </subsystem>                                                                                                                                              
 	
-Add your properties file into the de/crowdcode/jndi/properties folder.
+Add your properties files into the de/crowdcode/jndi/properties folder.
 
 # License
 
