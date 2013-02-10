@@ -1,6 +1,5 @@
 package de.crowdcode.jndi.properties;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -13,45 +12,68 @@ import javax.naming.Name;
 import javax.naming.spi.ObjectFactory;
 
 /**
- * 
  * @author Ingo Düppe
  */
 public class PropertiesFactory implements ObjectFactory {
 	
-	private static Logger LOG = Logger.getLogger(PropertiesFactory.class.getName());
+    private static final Logger LOG = Logger.getLogger(PropertiesFactory.class.getName());
 
+    private static final String INFO_TEXT = "It should have the URL of a property file like ./config/xyz.properties.";
+
+	@SuppressWarnings("PMD.ReplaceHashtableWithMap")
 	public Object getObjectInstance(Object object, Name name, Context context, Hashtable<?, ?> environment) throws PropertiesFactoryConfigException {
-	    String propertyName = object.toString();
-        String propertyFileName = System.getProperty(propertyName);
-	    if (propertyFileName == null || propertyFileName.trim().isEmpty() ) {
-	        
-	        String message = "System property "+propertyName+" is not set properly. " +
-	        		"It should have the URL of a property file like file://xyz.properties.";
-	        LOG.severe(message);
-            throw new PropertiesFactoryConfigException(message);
-	    }
-	    
-	    File propertyFile = new File(propertyFileName);
-	    if (!propertyFile.exists()) {
-	        String message = "Property file "+propertyFile+" does not exist.";
-	        LOG.severe(message);
-            throw new PropertiesFactoryConfigException(message);
-	    }
+	    return loadPropertiesFromFile(retrieveFileName(object));
+	}
 
-	    Properties properties = new Properties();
-	    try {
-            properties.load(new FileInputStream(propertyFile));
+    private String retrieveFileName(Object object) throws PropertiesFactoryConfigException {
+        if (object == null) {
+            LOG.severe("Parameter object must not be NULL.");
+            throw new PropertiesFactoryConfigException("Parameter object must not be NULL.", null);
+        }
+        
+        String property = object.toString();
+        String fileName = System.getProperty(property);
+        
+	    checkPropertyConfiguration(property, fileName);
+        return fileName;
+    }
+
+    private void checkPropertyConfiguration(String property, String fileName)  throws PropertiesFactoryConfigException {
+        if (fileName == null || fileName.trim().isEmpty() ) {
+	        String message = "System property "+property+" is not set properly. " + INFO_TEXT;
+            LOG.severe(message);
+            throw new PropertiesFactoryConfigException(message);
+	    }
+    }
+
+    private Properties loadPropertiesFromFile(String fileName) throws PropertiesFactoryConfigException {
+        Properties properties = new Properties();
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(fileName);
+            properties.load(fis);
         } catch (FileNotFoundException e) {
-            String message = "Property file "+propertyFile+" not found.";
+            String message = "Property file "+fileName+" not found."+ INFO_TEXT;
             LOG.severe(message);
             throw new PropertiesFactoryConfigException(message, e);
         } catch (IOException e) {
-            String message = "Error while loading property file "+propertyFile;
+            String message = "Error while loading property file "+fileName;
             LOG.severe(message);
             throw new PropertiesFactoryConfigException(message, e);
+        } finally {
+            closeStream(fis);
         }
-		
-		return properties;
-	}
+        return properties;
+    }
+    
+    private void closeStream(FileInputStream fis) throws PropertiesFactoryConfigException {
+        if (fis != null) {
+            try {
+                fis.close();
+            } catch (IOException e) {
+                throw new PropertiesFactoryConfigException("Couldn't close the properties file input stream.", e);
+            }
+        }
+    }
 
 }
