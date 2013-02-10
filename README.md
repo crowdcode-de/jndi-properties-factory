@@ -62,7 +62,7 @@ Add your properties files into the de/crowdcode/jndi/properties folder.
 </subsystem>
 
 <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text" property="dct:title" rel="dct:type">
-	jndi-properties-Factory
+	jndi-properties-factory
 </span> 
 by 
 <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">Ingo Düppe</span> 
