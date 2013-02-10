@@ -3,7 +3,7 @@
 JNDI-Properties provides two simple JNDI ObjectFactory classes that enable you to bind a property file as a Properties object into the jndi tree of JBoss AS 7.
 
 You can choose between `PropertiesFileFactory` or `PropertiesClasspathFactory` class. 
-`PropertiesFileFactory` loads the properties from a filesystem.
+`PropertiesFileFactory` loads the properties from a filesystem and `PropertiesClasspathFactory` loads the properties from classpath.  
 
 ###JBoss AS 7 Setup:
                                                     
@@ -22,6 +22,8 @@ Put into the folder de/crowdcode/jndi/properties/main the jndi-properties.jar fi
         </dependencies>
     </module>
 
+### Configuring of `PropertyFileFactory`
+
 Define the JNDI Binding in the `standalone.xml`:
 
     <subsystem xmlns="urn:jboss:domain:naming:1.1">
@@ -36,7 +38,7 @@ And as JBoss AS 7.1.1 doesn't support configuration of ObjectFactories, you need
         <property name="java:/property-config" value="/absolute/path/to/the/file/application.properties"/>
     </system-properties>
 
-`PropertiesClasspathFactory` loads the properties from classpath.
+#### Configuring of `PropertyClasspathFactory`
 
     <subsystem xmlns="urn:jboss:domain:naming:1.1">
         <bindings>
