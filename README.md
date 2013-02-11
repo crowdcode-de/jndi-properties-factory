@@ -1,20 +1,20 @@
 ## PropertiesFactory 
            
-JNDI-Properties provides two simple JNDI ObjectFactory classes that enable you to bind a property file as a Properties object into the jndi tree of JBoss AS 7.
-These Properties objects then can easily access by `@Resource` annotation.
+JNDI-Properties provides two simple JNDI ObjectFactory classes that enable you to bind a properties file as a Properties object into the jndi tree of JBoss AS 7.
+These Properties objects can easily be accessed via the `@Resource` annotation.
 
     @Resource(mappedName="java:/app-config") 
     private java.util.Properties properties;
 
 You can choose between `PropertiesFileFactory` or `PropertiesClasspathFactory` class. 
-`PropertiesFileFactory` loads the properties from a filesystem and `PropertiesClasspathFactory` loads the properties from classpath.     
+`PropertiesFileFactory` loads the properties from the filesystem via an absolute or relative path. The `PropertiesClasspathFactory` class loads the properties from classpath.     
 
 
 ###JBoss AS 7 Setup:
                                                     
-Setting up the module:
+For setting up a JBoss AS7 module put into the modules folder a subfolder structure like de/crowdcode/jndi/properties/main. And in the main folder place the jndi-properties.jar and a module.xml file. You can also place your properties files in here too. 
 
-Put into the folder de/crowdcode/jndi/properties/main the jndi-properties.jar file and a module.xml containing
+The module.xml should look like this:
 
     <?xml version="1.0" encoding="UTF-8"?>
     <module xmlns="urn:jboss:module:1.1" name="de.crowdcode.jndi.properties">
@@ -27,33 +27,37 @@ Put into the folder de/crowdcode/jndi/properties/main the jndi-properties.jar fi
         </dependencies>
     </module>
 
-### Configuring of `PropertyFileFactory`
+####Configuring of `PropertyFileFactory`
 
 Define the JNDI Binding in the `standalone.xml`:
 
     <subsystem xmlns="urn:jboss:domain:naming:1.1">
         <bindings>
-            <object-factory name="java:/app-config" module="de.crowdcode.jndi.properties" class="de.crowdcode.jndi.properties.PropertiesFileFactory"/>
+            <object-factory 
+                name="java:/app-config" 
+                module="de.crowdcode.jndi.properties" class="de.crowdcode.jndi.properties.PropertiesFileFactory"/>
         </bindings>
     </subsystem>                                                                                                                                              
 
-And as JBoss AS 7.1.1 doesn't support configuration of ObjectFactories, you need to define a system property with the name of the jndi name.
+And as JBoss AS 7.1.1 doesn't support configuration of ObjectFactories, you need to define a system property with the jndi name as key name.
 
     <system-properties>
         <property name="java:/app-config" value="/absolute/path/to/the/file/application.properties"/>
     </system-properties>
 
-#### Configuring of `PropertyClasspathFactory`
+#####Configuring of `PropertyClasspathFactory`
 
     <subsystem xmlns="urn:jboss:domain:naming:1.1">
         <bindings>
-            <object-factory name="java:/app-config" module="de.crowdcode.jndi.properties" class="de.crowdcode.jndi.properties.PropertiesClasspathFactory"/>
+            <object-factory 
+                name="java:/app-config" 
+                module="de.crowdcode.jndi.properties" class="de.crowdcode.jndi.properties.PropertiesClasspathFactory"/>
         </bindings>
     </subsystem>                                                                                                                                              
 	
 Add your properties files into the de/crowdcode/jndi/properties folder. For instance a app-config.properties file. The `PropertyClasspathFactory` provides two options to define the property file. First, the jndi name ends with the properties file name. So the jndi name `java:/app-config` leads to `app-config.properties`. Second, you define a system property `java:/app-config` that contain the properties file name.  
 
-# License
+##License
 
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">
 	<img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" />
