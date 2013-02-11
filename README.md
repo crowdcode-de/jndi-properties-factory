@@ -2,8 +2,14 @@
            
 JNDI-Properties provides two simple JNDI ObjectFactory classes that enable you to bind a property file as a Properties object into the jndi tree of JBoss AS 7.
 
+For Instance,
+
+   @Resource(mappedName="java:/app-configuration")
+   private java.util.Properties properties;
+
 You can choose between `PropertiesFileFactory` or `PropertiesClasspathFactory` class. 
-`PropertiesFileFactory` loads the properties from a filesystem and `PropertiesClasspathFactory` loads the properties from classpath.  
+`PropertiesFileFactory` loads the properties from a filesystem and `PropertiesClasspathFactory` loads the properties from classpath.     
+
 
 ###JBoss AS 7 Setup:
                                                     
