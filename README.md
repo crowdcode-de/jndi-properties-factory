@@ -12,9 +12,9 @@ You can choose between `PropertiesFileFactory` or `PropertiesClasspathFactory` c
 
 ###JBoss AS 7 Setup:
                                                     
-For setting up a JBoss AS7 module put into the modules folder a subfolder structure like de/crowdcode/jndi/properties/main. And in the main folder place the jndi-properties.jar and a module.xml file. You can also place your properties files in here too. 
+For setting up a JBoss AS7 module put into the modules folder a subfolder structure like `de/crowdcode/jndi/properties/main`. And in the main folder place the `jndi-properties.jar` and a `module.xml` file. You can also place your properties files in here too. 
 
-The module.xml should look like this:
+The `module.xml` should look like this:
 
     <?xml version="1.0" encoding="UTF-8"?>
     <module xmlns="urn:jboss:module:1.1" name="de.crowdcode.jndi.properties">
@@ -55,7 +55,7 @@ And as JBoss AS 7.1.1 doesn't support configuration of ObjectFactories, you need
         </bindings>
     </subsystem>                                                                                                                                              
 	
-Add your properties files into the de/crowdcode/jndi/properties folder. For instance a app-config.properties file. The `PropertyClasspathFactory` provides two options to define the property file. First, the jndi name ends with the properties file name. So the jndi name `java:/app-config` leads to `app-config.properties`. Second, you define a system property `java:/app-config` that contain the properties file name.  
+Add your properties files into the de/crowdcode/jndi/properties folder. For instance a app-config.properties file. The `PropertyClasspathFactory` provides two options to define the properties file. First, the jndi name ends with the properties filename. So the jndi name `java:/app-config` leads to `app-config.properties`. Second, you define a system property `java:/app-config` that contain the properties file name.  
 
 ##License
 
