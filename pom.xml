@@ -8,14 +8,30 @@
 		<version>7</version>
 	</parent>
 
-	<groupId>de.crowdcode.jboss</groupId>
+	<groupId>de.crowdcode.jndi</groupId>
 	<artifactId>jndi-properties</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<url>https://github.com/crowdcode-de/jndi-properties-factory</url>
 	<name>jndi-properties-factory</name>
+	<description>Support for place Properties objects into a jndi tree.</description>
 	<inceptionYear>2013</inceptionYear>
+	
+	<developers>
+		<developer>
+			<id>ingo.dueppe@crowdcode.de</id>
+			<name>Ingo Dueppe</name>
+			<email>ingo.dueppe@crowdcode.de</email>
+			<organization>CrowdCode</organization>
+			<organizationUrl>http://crowdcode.de</organizationUrl>
+			<roles>
+				<role>Architect</role>
+				<role>Developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+	</developers>
 
 	<properties>
 		<project.java.version>1.6</project.java.version>
