@@ -15,7 +15,7 @@
 
 	<url>https://github.com/crowdcode-de/jndi-properties-factory</url>
 	<name>jndi-properties-factory</name>
-	<description>Support for place Properties objects into a jndi tree.</description>
+	<description>Supports placing Properties objects into a jndi tree.</description>
 	<inceptionYear>2013</inceptionYear>
 	
 	<developers>
