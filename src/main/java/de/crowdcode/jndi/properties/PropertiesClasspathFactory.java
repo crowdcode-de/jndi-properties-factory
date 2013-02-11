@@ -1,28 +1,17 @@
 package de.crowdcode.jndi.properties;
 
 import java.io.InputStream;
-import java.util.Hashtable;
 import java.util.logging.Logger;
-
-import javax.naming.Context;
-import javax.naming.Name;
-import javax.naming.spi.ObjectFactory;
 
 /**
  * @author idueppe
  */
-public class PropertiesClasspathFactory extends AbstractPropertiesFactory implements ObjectFactory {
+public class PropertiesClasspathFactory extends AbstractPropertiesFactory {
 
     static final Logger LOG = Logger.getLogger(PropertiesFileFactory.class.getName());
 
     @Override
-    @SuppressWarnings("PMD.ReplaceHashtableWithMap")
-    public Object getObjectInstance(Object object, Name name, Context context, Hashtable<?, ?> environment)  throws PropertiesConfigException{
-        validateNotNull(object);
-        return loadProperties(resourceNameFromObject(object));
-    }
-
-    private String resourceNameFromObject(Object object) {
+    protected String resourceNameFromObject(Object object) {
         String jndi = object.toString();
         String resourceName = System.getProperty(jndi);
         if (resourceName == null || resourceName.isEmpty()) {

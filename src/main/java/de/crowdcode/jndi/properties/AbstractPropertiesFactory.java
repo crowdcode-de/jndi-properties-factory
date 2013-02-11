@@ -2,18 +2,35 @@ package de.crowdcode.jndi.properties;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Hashtable;
 import java.util.Properties;
 import java.util.logging.Logger;
+
+import javax.naming.Context;
+import javax.naming.Name;
+import javax.naming.spi.ObjectFactory;
 
 /**
  * @author Ingo Dueppe
  */
-public abstract class AbstractPropertiesFactory {
+public abstract class AbstractPropertiesFactory implements ObjectFactory {
     
     private static final Logger LOG = Logger.getLogger(PropertiesFileFactory.class.getName());
 
     protected static final String MSG_NOT_NULL = "Parameter object must not be null.";
     protected static final String MSG_PROPERTY_SETUP = "It should have the URL of a property file like ./config/xyz.properties.";
+    
+
+    @Override
+    @SuppressWarnings("PMD.ReplaceHashtableWithMap")
+    public Object getObjectInstance(Object object, Name name, Context context, Hashtable<?, ?> environment)  throws PropertiesConfigException{
+        validateNotNull(object);
+        return loadProperties(resourceNameFromObject(object));
+    }
+
+    protected abstract InputStream getInputStreamForResource(String resourceName) throws PropertiesConfigException;
+    
+    protected abstract String resourceNameFromObject(Object object) throws PropertiesConfigException;
 
     protected void validateNotNull(Object object) throws PropertiesConfigException {
         if (object == null) {
@@ -37,8 +54,6 @@ public abstract class AbstractPropertiesFactory {
         }
         return properties;
     }
-
-    protected abstract InputStream getInputStreamForResource(String resourceName) throws PropertiesConfigException;
 
     protected void closeStream(InputStream is) throws PropertiesConfigException {
         if (is != null) {
