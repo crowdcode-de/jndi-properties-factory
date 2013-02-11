@@ -1,10 +1,9 @@
 ## PropertiesFactory 
            
 JNDI-Properties provides two simple JNDI ObjectFactory classes that enable you to bind a property file as a Properties object into the jndi tree of JBoss AS 7.
+These Properties objects then can easily access by `@Resource` annotation.
 
-For Instance,
-
-    @Resource(mappedName="java:/app-configuration") 
+    @Resource(mappedName="java:/app-config") 
     private java.util.Properties properties;
 
 You can choose between `PropertiesFileFactory` or `PropertiesClasspathFactory` class. 
@@ -34,25 +33,25 @@ Define the JNDI Binding in the `standalone.xml`:
 
     <subsystem xmlns="urn:jboss:domain:naming:1.1">
         <bindings>
-            <object-factory name="java:/property-config" module="de.crowdcode.jndi.properties" class="de.crowdcode.jndi.properties.PropertiesFileFactory"/>
+            <object-factory name="java:/app-config" module="de.crowdcode.jndi.properties" class="de.crowdcode.jndi.properties.PropertiesFileFactory"/>
         </bindings>
     </subsystem>                                                                                                                                              
 
 And as JBoss AS 7.1.1 doesn't support configuration of ObjectFactories, you need to define a system property with the name of the jndi name.
 
     <system-properties>
-        <property name="java:/property-config" value="/absolute/path/to/the/file/application.properties"/>
+        <property name="java:/app-config" value="/absolute/path/to/the/file/application.properties"/>
     </system-properties>
 
 #### Configuring of `PropertyClasspathFactory`
 
     <subsystem xmlns="urn:jboss:domain:naming:1.1">
         <bindings>
-            <object-factory name="java:/property-config" module="de.crowdcode.jndi.properties" class="de.crowdcode.jndi.properties.PropertiesClasspathFactory"/>
+            <object-factory name="java:/app-config" module="de.crowdcode.jndi.properties" class="de.crowdcode.jndi.properties.PropertiesClasspathFactory"/>
         </bindings>
     </subsystem>                                                                                                                                              
 	
-Add your properties files into the de/crowdcode/jndi/properties folder.
+Add your properties files into the de/crowdcode/jndi/properties folder. For instance a app-config.properties file. The `PropertyClasspathFactory` provides two options to define the property file. First, the jndi name ends with the properties file name. So the jndi name `java:/app-config` leads to `app-config.properties`. Second, you define a system property `java:/app-config` that contain the properties file name.  
 
 # License
 
