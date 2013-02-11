@@ -4,8 +4,8 @@ JNDI-Properties provides two simple JNDI ObjectFactory classes that enable you t
 
 For Instance,
 
-   @Resource(mappedName="java:/app-configuration")
-   private java.util.Properties properties;
+    @Resource(mappedName="java:/app-configuration") 
+    private java.util.Properties properties;
 
 You can choose between `PropertiesFileFactory` or `PropertiesClasspathFactory` class. 
 `PropertiesFileFactory` loads the properties from a filesystem and `PropertiesClasspathFactory` loads the properties from classpath.     
