@@ -1,4 +1,9 @@
-target
-.eclipse
+/target
+/bin
+/.settings
 .classpath
-.se
+.project
+.idea
+*.iml
+pom.xml.*
+release.properties
